@@ -75,6 +75,20 @@ class Comment {
         // working end
 
     }
+
+    commentsList(res) {
+        const sql = 'SELECT * FROM comments ORDER BY id DESC LIMIT 100'
+
+        connection.query(sql, (err, results) => {
+
+            if (err) {
+                res.status(400).json(err)
+            } else {
+                res.status(200).json(results)
+            }
+
+        })
+    }
 }
 
 module.exports = new Comment();

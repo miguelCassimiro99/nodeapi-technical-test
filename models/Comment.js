@@ -5,7 +5,12 @@ class Comment {
 
         const isCommentValid = comment.comment_text.length >= 5
 
-        const getUserQuery = `SELECT id FROM users WHERE id = ${comment.user_id}`
+        const getUserQuery = `SELECT id FROM users WHERE email = '${comment.email}'`
+
+        const commentTrated = {
+            user_id: null,
+            comment_text: null
+        }
 
         // verify if user exists
         connection.query(getUserQuery, (err, results) => {
@@ -30,13 +35,19 @@ class Comment {
                         res.status(400).json(errors)
                     } else {
 
+                        commentTrated.user_id = results[0].id;
+                        commentTrated.comment_text = comment.comment_text;
+
+
                         const sql = 'INSERT INTO comments SET ?'
 
-                        connection.query(sql, comment, (err, results) => {
+                        connection.query(sql, commentTrated, (err, results) => {
                             if (err) {
                                 res.status(400).json(err)
                             } else {
-                                res.status(201).json(comment)
+                                let message = 'Comentário adicionado com sucesso'
+                                    // res.status(201).json(comment)
+                                res.render('', { message: message })
                             }
                         })
                     }
@@ -77,14 +88,22 @@ class Comment {
     }
 
     commentsList(res) {
-        const sql = 'SELECT * FROM comments ORDER BY id DESC LIMIT 100'
+        const sql = 'SELECT * FROM comments ORDER BY id DESC'
+
 
         connection.query(sql, (err, results) => {
 
             if (err) {
                 res.status(400).json(err)
             } else {
-                res.status(200).json(results)
+                // let comentarios = results[0].comment_text
+                let comentarios = []
+
+                for (let i = 0; i < results.length; i++) {
+                    comentarios.push(results[i].comment_text)
+                }
+                // console.log(comentarios)
+                res.render('comments_list', { comentarios: comentarios })
             }
 
         })

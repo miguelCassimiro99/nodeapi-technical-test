@@ -9,7 +9,8 @@ class Comment {
 
         const commentTrated = {
             user_id: null,
-            comment_text: null
+            comment_text: null,
+            user_name: null
         }
 
         // verify if user exists
@@ -19,7 +20,8 @@ class Comment {
             } else {
                 const userIdSearch = results[0]
                 if (userIdSearch == null) {
-                    res.status(422).json('User not found or allowed')
+                    let message = 'Email não encontrado! Falha ao enviar o comentário'
+                    res.render('index', { message: message })
                 } else {
                     // código que envia comentário
                     const validation = [{
@@ -57,38 +59,11 @@ class Comment {
 
         })
 
-        // working
-
-        // const validation = [{
-        //     name: 'Comment valid',
-        //     valid: isCommentValid,
-        //     message: 'The comment must have at leat 5 chars'
-        // }, ]
-
-        // const errors = validation.filter(field => !field.valid)
-        // const existsErrors = errors.length
-
-        // if (existsErrors) {
-        //     res.status(400).json(errors)
-        // } else {
-
-        //     const sql = 'INSERT INTO comments SET ?'
-
-        //     connection.query(sql, comment, (err, results) => {
-        //         if (err) {
-        //             res.status(400).json(err)
-        //         } else {
-        //             res.status(201).json(comment)
-        //         }
-        //     })
-        // }
-
-        // working end
-
     }
 
     commentsList(res) {
-        const sql = 'SELECT * FROM comments ORDER BY id DESC'
+        const sql = 'SELECT comments.id, comments.comment_text, users.name FROM comments LEFT JOIN users ON comments.user_id = users.id ORDER BY comments.id DESC'
+
 
 
         connection.query(sql, (err, results) => {
@@ -96,13 +71,23 @@ class Comment {
             if (err) {
                 res.status(400).json(err)
             } else {
-                // let comentarios = results[0].comment_text
+
                 let comentarios = []
 
+
                 for (let i = 0; i < results.length; i++) {
-                    comentarios.push(results[i].comment_text)
+
+                    let comentario = {
+                        text: null,
+                        user: null,
+                    }
+
+
+                    comentario.text = results[i].comment_text
+                    comentario.user = results[i].name
+                    comentarios.push(comentario)
                 }
-                // console.log(comentarios)
+
                 res.render('comments_list', { comentarios: comentarios })
             }
 

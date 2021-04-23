@@ -15,19 +15,29 @@
         <button class="btn btn-link">
         <a href="/">Retornar</a>
       </button>
-        <% if (comentarios.length > 0) { %>
-            <%
-      comentarios.forEach(function(comentario) { %>
 
-                <div class="card alert alert-link col-sm-12">
-                    <%= comentario %>
-                </div>
+        <div>
+            <% if (comentarios.length > 0) { %>
+                <%
+        comentarios.forEach(function(comentario) { %>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">
+                                <%= comentario.text %>
+                            </h5>
+                            <h6 class="card-subtitle text-muted">
+                                <%= comentario.user %>
+                            </h6>
+                        </div>
 
-                <% }); %>
-                    <% } %>
-                        <% if (comentarios.length == 0) { %>
-                            <div class="alert alert-link col-sm-12">Não há comentarios</div>
+                        <% }); %>
                             <% } %>
+                    </div>
+        </div>
+
+        <% if (comentarios.length == 0) { %>
+            <div class="alert alert-danger col-sm-12">Não há comentarios</div>
+            <% } %>
     </div>
 </body>
 

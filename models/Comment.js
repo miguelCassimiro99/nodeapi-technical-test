@@ -62,7 +62,7 @@ class Comment {
     }
 
     commentsList(res) {
-        const sql = 'SELECT comments.id, comments.comment_text, users.name FROM comments LEFT JOIN users ON comments.user_id = users.id ORDER BY comments.id DESC'
+        const sql = 'SELECT comments.id, comments.comment_text, users.name FROM comments LEFT JOIN users ON comments.user_id = users.id ORDER BY comments.id DESC LIMIT 100'
 
 
 

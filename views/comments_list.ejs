@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista comentários</h1>
+        <button class="btn btn-link">
+        <a href="/">Retornar</a>
+      </button>
+
+        <div>
+            <% if (comentarios.length > 0) { %>
+                <%
+        comentarios.forEach(function(comentario) { %>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">
+                                <%= comentario.text %>
+                            </h5>
+                            <h6 class="card-subtitle text-muted">
+                                <%= comentario.user %>
+                            </h6>
+                        </div>
+
+                        <% }); %>
+                            <% } %>
+                    </div>
+        </div>
+
+        <% if (comentarios.length == 0) { %>
+            <div class="alert alert-danger col-sm-12">Não há comentarios</div>
+            <% } %>
+    </div>
+</body>
+
+</html>

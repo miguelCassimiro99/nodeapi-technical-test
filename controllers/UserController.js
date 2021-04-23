@@ -1,4 +1,3 @@
-const users = require('../models/User');
 const User = require('../models/User');
 
 module.exports = (app) => {
@@ -7,5 +6,10 @@ module.exports = (app) => {
         const user = req.body;
 
         User.store(user, res);
+    })
+
+    app.post('/login', (req, res) => {
+        const user = req.body;
+        User.login(user, res, req);
     })
 }

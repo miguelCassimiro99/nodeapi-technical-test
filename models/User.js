@@ -29,11 +29,27 @@ class User {
                     res.status(400).json(err);
                     console.log(err)
                 } else {
+                    let message = 'Usuário criado com sucesso!'
                     let userId = results.insertId;
-                    res.status(201).json(userId);
+                    res.render('index.ejs', { message: message });
+                    // res.status(201).json(userId);
                 }
             })
         }
+    }
+
+    login(user, res, req) {
+        var sess = req.session;
+        const sql = `SELECT id, name, email FROM users WHERE name = '${user.name}' AND email = '${user.email}'`
+        connection.query(sql, (err, results) => {
+            if (err) {
+                res.status(422).json(err)
+            } else {
+                let message = 'Usuário logado'
+                req.session.userId = results[0].id;
+                res.render('index', { message: message })
+            }
+        })
     }
 }
 
